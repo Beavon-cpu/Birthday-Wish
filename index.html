@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>A Special Birthday Surprise For You, My Gal🤧😩🫶 ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400..700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Task 2: Magic Rings background canvas — sits behind everything (z-index handled in CSS) -->
+<canvas id="magic-rings-bg"></canvas>
+
+<!-- Background ambient layers shared across all sections -->
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+<div class="bg-glow bg-glow-3"></div>
+<canvas id="confetti-canvas"></canvas>
+<!-- NEW: full-viewport celebration layers (balloons + falling flowers), shared/reused so effects never duplicate uncontrollably -->
+<div id="celebration-balloons" class="celebration-layer"></div>
+<div id="celebration-flowers" class="celebration-layer"></div>
+<div id="floating-hearts-container" class="floating-hearts-container"></div>
+<div id="sparkles-container" class="sparkles-container"></div>
+<div id="shooting-stars-container" class="shooting-stars-container"></div>
+
+<!-- ============================== -->
+<!-- SECTION 1: LOGIN SCREEN -->
+<!-- ============================== -->
+<section id="login-screen" class="screen active-screen">
+    <div class="cover-deco cover-deco-1">💌</div>
+    <div class="cover-deco cover-deco-2">🌸</div>
+    <div class="cover-deco cover-deco-3">✨</div>
+    <div class="cover-deco cover-deco-4">💗</div>
+    <div class="cover-ring cover-ring-1"></div>
+    <div class="cover-ring cover-ring-2"></div>
+    <div class="glass-card login-card">
+        <h1 class="glow-title">A Special Birthday Surprise For You, My Gal 🤧😩🫶 <span class="heart-pulse">❤️</span></h1>
+        <p class="subtitle">Only my love can unlock this</p>
+
+        <form id="login-form" class="login-form">
+            <div class="input-wrap">
+                <input type="text" id="nickname-input" placeholder=" " autocomplete="off" required />
+                <label for="nickname-input">Your secret Nickname</label>
+            </div>
+            <div class="input-wrap">
+                <input type="password" id="password-input" placeholder=" " autocomplete="off" required />
+                <label for="password-input">Your secret Password</label>
+            </div>
+            <button type="submit" class="romantic-btn" id="login-btn">
+                <span>Unlock My Heart ❤️</span>
+            </button>
+            <p id="login-error" class="login-error"></p>
+        </form>
+    </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 2: LOADING SCREEN -->
+<!-- ============================== -->
+<section id="loading-screen" class="screen">
+    <div class="loading-content">
+        <h2 class="glow-title small">Do not melt😩🤧, gift awaits🤭 <span class="heart-pulse">❤️</span></h2>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="loading-heart">💗</div>
+    </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 2.5 (NEW): "FOR YOU" FLOWER PAGE -->
+<!-- Inserted immediately after the loading screen -->
+<!-- ============================== -->
+<section id="foryou-screen" class="screen">
+    <!-- Real, directly-clickable trigger button (top-left) -->
+    <button class="romantic-btn foryou-trigger-btn" id="foryou-btn"><span>For You 🌸</span></button>
+
+    <!-- Flower animation wallpaper layers -->
+    <div class="foryou-flower-stage" id="foryou-flower-stage">
+        <div class="big-flower" id="big-flower">🌸</div>
+        <div class="small-flowers-container" id="small-flowers-container"></div>
+    </div>
+
+    <!-- Hidden real button — driven only through the floating "Continue My Gal" control -->
+    <button class="romantic-btn" id="foryou-continue-btn"><span>Continue My Gal ❤️</span></button>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 3: HEARTFELT MESSAGE -->
+<!-- ============================== -->
+<section id="message-screen" class="screen">
+    <div class="glass-card message-card">
+        <h2 class="glow-title small">A Letter From My Heart</h2>
+        <div class="typewriter-box">
+            <p id="typewriter-text"></p>
+            <span class="typewriter-cursor">|</span>
+        </div>
+        <!-- Task 1: kept in DOM to drive navigation logic, hidden via CSS -->
+        <button class="romantic-btn" id="continue-btn"><span>Continue My Love ❤️</span></button>
+    </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 4: GIFTS SECTION -->
+<!-- ============================== -->
+<section id="gifts-screen" class="screen">
+    <div class="glass-card gifts-card">
+
+        <!-- Gift 1: Your Favorite Pic -->
+        <div class="gift-stage" id="gift-stage-1" data-active="true">
+            <h2 class="glow-title small gift-heading">Your Favorite Pic🤭😘</h2>
+            <div class="gift-box-wrap">
+                <div class="gift-box" id="gift-box-1">
+                    <div class="gift-lid"></div>
+                    <div class="gift-body"></div>
+                    <div class="gift-ribbon-v"></div>
+                    <div class="gift-ribbon-h"></div>
+                    <div class="gift-bow">🎀</div>
+                </div>
+                <div class="gift-reveal" id="gift-reveal-1">
+                    <!-- REPLACE IMAGE: her favorite picture -->
+                    <img src="assets/her-favorite-pic.jpeg" alt="Her favorite picture" />
+                </div>
+            </div>
+            <button class="romantic-btn open-gift-btn" data-gift="1"><span>Open Gift ❤️</span></button>
+            <button class="romantic-btn next-gift-btn" data-next="2" style="display:none;"><span>Continue My Gal ❤️</span></button>
+        </div>
+
+        <!-- Gift 2: Our Favorite Pic -->
+        <div class="gift-stage" id="gift-stage-2" data-active="false">
+            <h2 class="glow-title small gift-heading">Our Favorite Pic🫠🫶</h2>
+            <div class="gift-box-wrap">
+                <div class="gift-box" id="gift-box-2">
+                    <div class="gift-lid"></div>
+                    <div class="gift-body"></div>
+                    <div class="gift-ribbon-v"></div>
+                    <div class="gift-ribbon-h"></div>
+                    <div class="gift-bow">🎀</div>
+                </div>
+                <div class="gift-reveal" id="gift-reveal-2">
+                    <!-- REPLACE IMAGE: our favorite picture together -->
+                    <img src="assets/our-best-pic.jpeg" alt="Our favorite picture together" />
+                </div>
+            </div>
+            <button class="romantic-btn open-gift-btn" data-gift="2"><span>Open Gift ❤️</span></button>
+            <button class="romantic-btn next-gift-btn" data-next="3" style="display:none;"><span>Continue My Gal ❤️</span></button>
+        </div>
+
+        <!-- Gift 3: Birthday Cake -->
+        <div class="gift-stage" id="gift-stage-3" data-active="false">
+            <h2 class="glow-title small gift-heading">Birthday Cake</h2>
+            <div class="gift-box-wrap">
+                <div class="gift-box" id="gift-box-3">
+                    <div class="gift-lid"></div>
+                    <div class="gift-body"></div>
+                    <div class="gift-ribbon-v"></div>
+                    <div class="gift-ribbon-h"></div>
+                    <div class="gift-bow">🎀</div>
+                </div>
+                <div class="gift-reveal cake-reveal" id="gift-reveal-3">
+                    <div class="cake-wrap">
+                        <!-- REPLACE IMAGE: birthday cake -->
+                        <img src="assets/birthday-cake.jpeg" alt="Birthday cake" />
+                        <div class="candle-flame"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="cake-message" id="cake-message">Grab a bite, and share with your real ones ❤️</p>
+            <button class="romantic-btn open-gift-btn" data-gift="3"><span>Open Gift ❤️</span></button>
+            <button class="romantic-btn" id="celebrate-btn" style="display:none;"><span>Celebrate 🎉</span></button>
+            <button class="romantic-btn" id="cut-cake-btn" style="display:none;"><span>Cut the Cake 🔪</span></button>
+            <button class="romantic-btn" id="final-surprise-btn" style="display:none;"><span>Continue My Gal ❤️</span></button>
+        </div>
+
+    </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 5: FUTURE WISHES -->
+<!-- ============================== -->
+<section id="wishes-screen" class="screen">
+    <div class="glass-card wishes-card">
+        <h2 class="glow-title small">My Wishes For Us</h2>
+        <ul class="wishes-list" id="wishes-list">
+            <li data-wish>Endless Happiness 🌸</li>
+            <li data-wish>Great Success 🌟</li>
+            <li data-wish>Perfect Health 🌿</li>
+            <li data-wish>Lasting Peace ☁️</li>
+            <li data-wish>Endless Love ❤️</li>
+            <li data-wish>A Beautiful Future Together 💍</li>
+        </ul>
+        <button class="romantic-btn" id="onelast-btn"><span>One Last Thing ❤️</span></button>
+    </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION 6: CLOSING MESSAGE -->
+<!-- ============================== -->
+<section id="closing-screen" class="screen">
+    <div class="glass-card closing-card">
+        <p class="closing-text" id="closing-text">
+            Thank you for being the best part of my life.😘<br>Happy Birthday my favourite person🫠🫶 <span class="heart-pulse">❤️</span>
+        </p>
+        <button class="romantic-btn" id="forever-btn"><span>Forever Yours ❤️</span></button>
+    </div>
+</section>
+
+<!-- ============================== -->
+<!-- FINAL POPUP -->
+<!-- ============================== -->
+<div id="final-popup-overlay" class="final-popup-overlay">
+    <div class="final-popup glow-pulse">
+        <p>I love you endlessly ❤️</p>
+        <button class="romantic-btn" id="close-popup-btn"><span>Close ❤️</span></button>
+    </div>
+</div>
+
+<!-- ============================== -->
+<!-- FIXED MUSIC BAR (bottom-left) -->
+<!-- ============================== -->
+<div class="music-bar">
+    <!-- REPLACE MUSIC: assets/love-song.mp3.mp3 -->
+    <audio id="bg-music" src="assets/bg-music.MP3" loop></audio>
+    <button id="play-pause-btn" class="music-btn" aria-label="Play or pause music">⏸</button>
+    <button id="vol-down-btn" class="music-btn" aria-label="Volume down">－</button>
+    <span class="music-label">♪ Fav Song</span>
+    <button id="vol-up-btn" class="music-btn" aria-label="Volume up">＋</button>
+</div>
+
+<!-- ============================== -->
+<!-- FIXED BACK BUTTON (bottom-center) — NEW -->
+<!-- Visible from the "For You" page through the second-last page -->
+<!-- ============================== -->
+<button id="floating-back-btn" class="floating-back-btn" aria-label="Back">
+    <span class="back-arrow">⟵</span>
+    <span>Back</span>
+</button>
+
+<!-- ============================== -->
+<!-- FIXED NEXT BUTTON (bottom-right) — the ONLY visible forward-navigation button -->
+<!-- ============================== -->
+<button id="floating-next-btn" class="floating-next-btn" aria-label="Next">
+    <span class="floating-next-label">Next</span>
+    <span class="floating-next-arrow">➜</span>
+</button>
+
+<!-- Three.js (CDN, with automatic fallback if the first CDN fails/blocks) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"
+        onerror="this.onerror=null;this.src='https://unpkg.com/three@0.128.0/build/three.min.js';"></script>
+<script src="script.js"></script>
+</body>
+</html>
